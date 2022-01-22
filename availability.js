@@ -27,10 +27,9 @@ async function msTeams() {
       "body": "{\"availability\":\"Available\"}",
       "method": "PUT",
       "mode": "cors"
-    }).then(x => {
+    }).then(response => {
       let date = new Date();
-    	console.log(`forceavailability(${counter}): ${date.toUTCString()}`);
-    	console.log(x.status)
+      console.log(`(PUT) forceavailability(${counter}): status ${response.status} - ${date.toUTCString()}`);
     });
 
     await fetch("https://presence.teams.microsoft.com/v1/me/reportmyactivity/", {
@@ -57,10 +56,9 @@ async function msTeams() {
 	  "body": "{\"endpointId\":\"<get-from-teams>","isActive\":true}",
 	  "method": "POST",
 	  "mode": "cors"
-	}).then(y => {
+	}).then(response => {
     let date = new Date();
-		console.log(`reportmyactivity(${counter}): ${date.toUTCString()}`);
-		console.log(y.status);
+		console.log(`(POST) reportmyactivity(${counter}): status ${response.status} - ${date.toUTCString()}`);
 	});
 
     await fetch("https://presence.teams.microsoft.com/v1/me/presence", {
@@ -88,9 +86,10 @@ async function msTeams() {
       "mode": "cors"
     }).then(response => {
       let date = new Date();
-      console.log(`presence(${counter}): ${date.toUTCString()}`);
-      console.log(response.status);
+      console.log(`(GET) presence(${counter}): status ${response.status} - ${date.toUTCString()}`);
       return response.json();
+    }).then(data => {
+      console.log(`Showing activity as: ${data.activity} & availability as: ${data.availability}`);
     });
 
     counter++;
